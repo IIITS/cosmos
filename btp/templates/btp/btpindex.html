@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block main %}
+     <div id="home-view">
+        {% include 'btp/btp_home.html' %}       
+     </div>
+     <div id="faculty-view">
+        {% include 'btp/btp_faculty.html' %}
+     </div>
+     <div id="projects-view">
+        {% include 'btp/btp_projects.html' %}
+     </div>
+     <div id="submissions-view">
+        {% include 'btp/btp_submissions.html' %} 
+     </div>
+     <div id="students-view">
+        {% include 'btp/btp_students.html' %}       
+     </div>
+{% endblock %}
+<script>
+  $(document).ready(function(){
+    $('#faculty-view').hide().$('#projects-view').hide().$('#students-view').hide().$('#home-view').show();
+    $('#faculty-link').click(function(){
+    $('#faculty-view').show().$('#projects-view').hide().$('#students-view').hide().$('#home-view').hide();
+    });
+    $('#students-link').click(function(){
+    $('#faculty-view').hide().$('#projects-view').hide().$('#students-view').show().$('#home-view').hide();
+    });
+    $('#projects-link').click(function(){
+    $('#faculty-view').hide().$('#projects-view').show().$('#students-view').hide().$('#home-view').hide();
+    });
+    $('#home-link').click(function(){
+    $('#faculty-view').hide().$('#projects-view').hide().$('#students-view').hide().$('#home-view').show();
+    });      
+  });
+</script>
