@@ -64,20 +64,6 @@ class LoginView(FormView):
 		}
 		return context
 
-class BTPProjectsDisplayView(TemplateView):
-	template_name = 'projects.html'
-	def get_context_data(self, **kwargs):
-		context = {'title':'Projects - BTP'}
-		return context
-	def dispatch(self, *args, **kwargs):
-		return super(BTPProjectsDisplayView,self).dispatch(*args,**kwargs)
-class FacultyDisplayView(TemplateView):
-	template_name = 'faculty.html'
-	def get_context_data(self, **kwargs):
-		context = {'title':'Faculty - BTP'}
-		return context
-	def dispatch(self, *args, **kwargs):
-		return super(FacultyDisplayView,self).dispatch(*args,**kwargs)
 class WeekScheduleView(TemplateView):
 	template_name = 'index.html'
 	def get_context_data(self, **kwargs):
