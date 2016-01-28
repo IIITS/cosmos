@@ -17,6 +17,46 @@
 	<script src="{% static 'btp/js/bootstrap.min.js' %}"></script>
 	<script src="{% static 'btp/js/script.js' %}"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<style>
+	.faculty-cont{ margin:10px auto; }
+	.faculty-description{ display:none;}
+	.faculty-describe{ display:block;}
+	.faculty-describe ul {list-style: none;}
+	.faculty-describe ul li a{text-decoration: none; color:black;}
+	</style>
 </head>
-<div>
+<div class="faculty-cont mdl-card mdl-shadow--2dp through mdl-shadow--16dp" style="width:80%;">
+	<div class="mdl-card--border mdl-card__title">
+		<h2 class="mdl-card__title-text">Faculty</h2>
+	</div>
+	<div class="mdl-card__supporting-text">
+		List of faculty who are mentoring B.Tech projects currently... 
+	</div>
 </div>
+{% for fac in faculty %}
+	<div class="faculty-cont mdl-card mdl-shadow--2dp through mdl-shadow--16dp" style="width:80%; min-height:50px !important;">
+		<div class="mdl-card--border mdl-card__title">
+			<h2 class="mdl-card__title-text">{{ fac.user.get_full_name }}</h2>
+		</div>
+		<div class="mdl-card__supporting-text">
+			<button onclick="showprojects({{fac.id}})" id="showpro-{{fac.id}}" class="mdl-button mdl-js-button mdl-js-ripple-effect">Show Projects</button>	
+			<div class="faculty-description" id="fac-description-{{fac.id}}">
+				<ul>
+				{% for pro in fac.get_all_projects %}
+					<li><a>{{pro.code}}&nbsp;{{pro.title}}</a></li>
+				{% endfor %}
+				</ul>	
+			</div> 
+		</div> 		
+	</div>
+{% endfor %}
+<script>
+	$(document).ready(function(){
+
+  	window.showprojects = function(fid){
+  		$('#showpro-'+fid).hide();
+    	$('#fac-description-'+fid).addClass('faculty-describe').removeClass('faculty-description');
+  	} 
+	});
+
+</script>

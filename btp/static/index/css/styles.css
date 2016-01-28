@@ -7,6 +7,22 @@ body {
 a img{
   border: 0px;
 }
+.cosmos-logo{
+ font:normal 40px Arial;
+ color:#FFFFFF;
+ text-shadow: 0 1px 0 #ccc,
+ 0 2px 0 #c9c9c9,
+ 0 3px 0 #bbb,
+ 0 4px 0 #b9b9b9,
+ 0 5px 0 #aaa,
+ 0 6px 1px rgba(0,0,0,.1),
+ 0 0 5px rgba(0,0,0,.1),
+ 0 1px 3px rgba(0,0,0,.3),
+ 0 3px 5px rgba(0,0,0,.2),
+ 0 5px 10px rgba(0,0,0,.25),
+ 0 10px 10px rgba(0,0,0,.2),
+ 0 20px 20px rgba(0,0,0,.15);
+}
 
 ::-moz-selection {
   background-color: #6ab344;
@@ -44,8 +60,8 @@ a img{
 
 
 .septem-logo-image {
-  height: 28px;
-  width: 140px;
+  height: 75px;
+  width: 75px;
 }
 
 
@@ -108,7 +124,7 @@ a img{
   }
 
     .septem-navigation .mdl-navigation__link:hover {
-      border-bottom: 4px solid #660029;
+      border-bottom: 4px solid black;
     }
 
  
@@ -128,7 +144,7 @@ a img{
 .logo-font {
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   line-height: 1;
-  color: white;
+  color: black;
   font-weight: 500;
 }
 

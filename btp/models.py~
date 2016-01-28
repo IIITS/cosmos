@@ -31,23 +31,23 @@ class BTPStudent(models.Model):
 	rollno = models.CharField(max_length=15)
 	btpproject = models.ForeignKey(BTPProject)
 	def __str__(self):
-		return self.rollno
+		return str(self.rollno) +"   "+ str(self.user.get_full_name())
 	def fullname(self):
-		return self.user.get_full_name()
+		return self.user.get_full_name() 
 
 class Faculty(models.Model):
 	user = models.OneToOneField(User)
 	
 	def __str__(self):
-		return str(self.id)
+		return str(self.user.get_full_name())
 	
 	def fullname(self):
 		return self.user.get_full_name()
 	def get_all_projects(self):
 		ProjectList = []
-		btpprojects = BTPProject.objects.a()
+		btpprojects = BTPProject.objects.all()
 		for btpro in btpprojects:
-			if (self.user.id in btpro.supervisor):
+			if (self.id in btpro.supervisor):
 				ProjectList.append(btpro)
 
 		return ProjectList
@@ -59,10 +59,10 @@ class Semester(models.Model):
 	year = models.DateField()
 class BTPWeek(models.Model):
 	weekno = models.PositiveIntegerField(default=0)
-	startdate = models.DateTimeField()
-	enddate = models.DateTimeField()
+	starttime = models.DateTimeField()
+	endtime = models.DateTimeField()
 	def __str__(self):
-		return str(self.weekno)
+		return "Week - "+str(self.weekno)
 		
 
 class BTPEvalPanel(models.Model):
@@ -70,17 +70,35 @@ class BTPEvalPanel(models.Model):
 	members = ArrayField(models.SmallIntegerField())
 	def __str__(self):
 		return str(self.name)
-class BTPEvalGroup(models.Model):
-	groupno = models.PositiveIntegerField(default=0)
-	projects = ArrayField(models.SmallIntegerField())
-	panel = models.ForeignKey(BTPEvalPanel)
 
 
-
-class BTPSubmission(models.Model):
-	week = models.ForeignKey(BTPWeek)
+class BTPProjectGroup(models.Model):
 	project = models.ForeignKey(BTPProject)
-	submitted_at = models.DateTimeField()
+	students = ArrayField(models.SmallIntegerField())
+	faculty = ArrayField(models.SmallIntegerField())
+	def __str__(self):
+		return self.project.code
+
+class BTPEvalSet(models.Model):
+	groupno = models.PositiveIntegerField(default=0)
+	projectgroups = ArrayField(models.SmallIntegerField())
+	panel = models.ForeignKey(BTPEvalPanel)
+	def __str__(self):
+		return "set  - "+str(self.groupno)
+
+class BTPSetWeek(models.Model):
+	sets = models.ForeignKey(BTPEvalSet)
+	week = models.ForeignKey(BTPWeek)
+	evalday = models.DateField(default=timezone.now())
+	starttime = models.DateField()
+	endtime = models.DateField()
+	submitdeadline = models.DateTimeField()
+	def __str__(self):
+		return "Set - "+str(self.sets.groupno) + " Week -"+str(self.week.weekno)	
+class BTPSubmission(models.Model):
+	week = models.ForeignKey(BTPSetWeek)
+	projectgroup = models.ForeignKey(BTPProjectGroup,null=True)
+	submitted_at = models.DateTimeField(auto_now = True)
 	fileuploaded = models.FileField(upload_to='/btp/evaluation/submissions/')
 	submitted_by = models.ForeignKey(User)
 	

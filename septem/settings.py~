@@ -68,9 +68,9 @@ WSGI_APPLICATION = 'septem.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': keyring.get_password('btp','PG_BTP_DBNAME'),
-        'USER': keyring.get_password('btp','PG_BTP_USER'),
-        'PASSWORD': keyring.get_password('btp','PG_BTP_PASS'),
+        'NAME': 'btp',
+        'USER': 'sahalsajjad',
+        'PASSWORD': 'subhanallah',
     }
 }
 

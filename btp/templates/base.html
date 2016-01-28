@@ -32,15 +32,15 @@
         <header class="demo-drawer-header">
           
           <div class="demo-avatar-dropdown">
-          	<span class="user-avatar"><i class="material-icons" role="presentation">user</i></span>
-            <span>{{ user.get_full_name }}</span>
+          	<span class="user-avatar"><i style="font-size:42px;"class="material-icons" role="presentation">person_pin</i></span>
+            <span>{{ user.first_name | capfirst}} &nbsp;{{ user.last_name | capfirst}} </span>
             <div class="mdl-layout-spacer"></div>
             <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
               <i class="material-icons" role="presentation">arrow_drop_down</i>
               <span class="visuallyhidden">Accounts</span>
             </button>
             <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-              <li class="mdl-menu__item">{{ user.get_full_name }}</li>
+              <i class="material-icons" role="presentation">person_pin</i>{{ user.get_full_name }}</li>
               <li class="mdl-menu__item"><a>Change Password</li>
               <li class="mdl-menu__item"><a><i class="material-icons">https</i>Sign Out</a></li>
             </ul>
@@ -49,14 +49,15 @@
         {% endblock %}
         {% block nav %}
         <nav class="demo-navigation mdl-navigation header-mast">
+          <a id="deadlines-link" class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">today</i>Deadlines</a>	 
           <a id="faculty-link" class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">account_circle</i>Faculty</a>
           <a id="students-link"class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">account_box</i>Students</a>
           <a id="projects-link" class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">assignment</i>Projects</a>
-          <a id="projects-link" class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">assignment</i>Submissions</a>
-          
+          <a id="submissions-link" class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">check_circle</i>Submissions</a>
+          <a id="submit-link" class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">fingerprint</i>Submit</a>
           
           <div class="mdl-layout-spacer"></div>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Docs</span></a>
+          <a class="mdl-navigation__link" ><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Docs</span></a>
         </nav>
         {% endblock %}
       </div>

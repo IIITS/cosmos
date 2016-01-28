@@ -1,9 +1,16 @@
 from django.contrib import admin
-from btp.models import BTPWeek, BTPStudent, Faculty,  BTPProject, Application
+from btp.models import *
 
+admin.site.register(Application)
 admin.site.register(BTPProject)
-admin.site.register(Faculty)
 admin.site.register(BTPStudent)
+admin.site.register(Faculty)
+admin.site.register(Semester)
 admin.site.register(BTPWeek)
+admin.site.register(BTPEvalPanel)
+admin.site.register(BTPEvalGroup)
+admin.site.register(BTPProjectGroup)
+admin.site.register(BTPGroupWeek)
 
-admin.site.site_header = 'Septem Administrator'
+admin.site.site_header = 'Cosmos Administrator'
+

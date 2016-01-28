@@ -1,0 +1,80 @@
+{% load staticfiles %}
+<!doctype html>
+<html lang="en">
+<head>
+	{% block title %}<title>{{ title }}</title>{% endblock %}
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A project of NSA, IIITS - developed by Sahal Sajjad">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="{% static 'btp/img/iiits-logo.png' %}">
+	
+
+	<link rel="stylesheet" type="text/css" href="{% static 'btp/css/font-awesome.min.css' %}">
+	<link rel="stylesheet" href="{% static 'index/css/material.min.css' %}">
+    <link rel="stylesheet" href="{% static 'btp/css/styles.css' %}">
+	<script src="{% static 'btp/js/jquery.min.js' %}"></script>
+	<script src="{% static 'btp/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'btp/js/script.js' %}"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<style>
+		.fileUpload {
+		    position: relative;
+		    overflow: hidden;
+		    margin: 10px auto;
+		}
+		.fileUpload input.upload {
+		    position: absolute;
+		    top: 0;
+		    right: 0;
+		    margin: auto;
+		    padding: 0;
+		    font-size: 20px;
+		    cursor: pointer;
+		    opacity: 0;
+		    filter: alpha(opacity=0);
+		}
+		.demo-card-wide.mdl-card {
+		  width: 100%;
+		}
+		.demo-card-wide > .mdl-card__title {
+		  color: #blue;
+		  height: 176px;
+		  margin:auto;	
+		  
+}
+.demo-card-wide > .mdl-card__menu {
+  color: #blue;
+}
+
+	</style>
+</head>
+<div class="submit-here">
+
+
+
+<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+  <div class="mdl-card__title">
+    <h2 class="mdl-card__title-text">Upload your file here</h2>
+  </div>
+  <div class="mdl-card__supporting-text">
+    Week-1
+  </div>
+  <div class="mdl-card__actions mdl-card--border">
+    <form id="file-submit-form" method="post" enctype="multipart/data" >
+		
+		<div class="fileUpload btn btn-primary">
+    			
+    			{{ submissionsform.fileuploaded }}
+		</div>
+	</form>
+  </div>
+  
+</div>
+	
+</div>
+<script>
+document.getElementById("uploadBtn").onchange = function () {
+    document.getElementById("uploadFile").value = this.value;
+};
+</script>
