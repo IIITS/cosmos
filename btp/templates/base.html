@@ -41,15 +41,15 @@
             </button>
             <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
               <i class="material-icons" role="presentation">person_pin</i>{{ user.get_full_name }}</li>
-              <li class="mdl-menu__item"><a>Change Password</li>
-              <li class="mdl-menu__item"><a><i class="material-icons">https</i>Sign Out</a></li>
+              <li class="mdl-menu__item"><a href="/secure/changepassword/">Change Password</li>
+              <li class="mdl-menu__item"><a href="/accounts/signout/"><i class="material-icons">https</i>Sign Out</a></li>
             </ul>
           </div>
         </header>
         {% endblock %}
         {% block nav %}
         <nav class="demo-navigation mdl-navigation header-mast">
-          <a id="deadlines-link" class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">today</i>Deadlines</a>	 
+          <a id="deadline-link" class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">today</i>Deadlines</a>	 
           <a id="faculty-link" class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">account_circle</i>Faculty</a>
           <a id="students-link"class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">account_box</i>Students</a>
           <a id="projects-link" class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">assignment</i>Projects</a>

@@ -24,7 +24,7 @@
       {% block header %}
       <header class="demo-header mdl-layout__header header-mast mdl-color-text--blue-600">
         <div class="mdl-layout__header-row">
-          <span class="mdl-layout-title">B.Tech Projects Portal</span>
+          <span class="mdl-layout-title">{{ header }}</span>
           <div class="mdl-layout-spacer"></div>
         </div>
       </header>
@@ -41,8 +41,8 @@
             </button>
             <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
               <i class="material-icons" role="presentation">person_pin</i>{{ user.get_full_name }}</li>
-              <li class="mdl-menu__item"><a>Change Password</li>
-              <li class="mdl-menu__item"><a><i class="material-icons">https</i>Sign Out</a></li>
+              <li class="mdl-menu__item"><a href="/secure/changepassword/">Change Password</li>
+              <li class="mdl-menu__item"><a href="/accounts/signout/"><i class="material-icons">https</i>Sign Out</a></li>
             </ul>
           </div>
         </header>

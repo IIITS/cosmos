@@ -29,11 +29,11 @@
             <nav class="septem-navigation mdl-navigation">
               <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/btp/">BTP</a>
               <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/honors/">HONORS</a>
-              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/research/">RESEARCH</a>
               <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/internships/">INTERNSHIPS</a>
+	      <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/placements/">PLACEMENTS</a>	
               <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/ideas/">IDEAS</a>
-              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/ventures/">VENTURES</a>
-              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/placements/">PLACEMENTS</a>
+              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/entrepreneurships/">ENTREPRENEURSHIPS</a>
+              
             </nav>
           </div>
           <span class="septem-mobile-title mdl-layout-title">
@@ -44,8 +44,8 @@
           </button>
           <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="more-button">
             <li class="mdl-menu__item">{{ user.get_full_name }}</li>
-            <li class="mdl-menu__item">change password</li>
-            <li class="mdl-menu__item">sign out</li>
+            <li class="mdl-menu__item"><a href="/secure/changepassword/">change password</a></li>
+            <li class="mdl-menu__item"><a href="/accounts/signout/">sign out</li>
           </ul>
         </div>
       </div>

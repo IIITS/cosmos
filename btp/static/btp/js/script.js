@@ -1,10 +1,15 @@
 $(document).ready(function(){
-    var hideit = ['#faculty-view', '#projects-view', '#students-view','#submit-view','#submissions-view', '#deadlines-view', '#home-view'];
+    var hideit = ['#faculty-view', '#projects-view', '#students-view','#submit-view','#submissions-view', '#deadline-view', '#home-view'];
     for(var i=0; i<hideit.length; i++){
 	$(hideit[i]).hide();	
     }	
-    $('#home-view').show();	
-    
+    $('#deadline-view').show();	
+    $('#deadline-link').click(function(){
+	for(var i=0; i<hideit.length; i++){
+	$(hideit[i]).hide();
+	}
+	$('#deadline-view').show();
+	});
     $('#faculty-link').click(function(){
     for(var i=0; i<hideit.length; i++){
 	$(hideit[i]).hide();	

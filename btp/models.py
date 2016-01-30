@@ -64,7 +64,8 @@ class BTPWeek(models.Model):
 	endtime = models.DateTimeField()
 	def __str__(self):
 		return "Week - "+str(self.weekno)
-		
+	
+					
 
 class BTPEvalPanel(models.Model):
 	name = models.CharField(max_length=15)
@@ -87,6 +88,7 @@ class BTPEvalSet(models.Model):
 	def __str__(self):
 		return "set  - "+str(self.groupno)
 
+
 class BTPSetWeek(models.Model):
 	sets = models.ForeignKey(BTPEvalSet)
 	week = models.ForeignKey(BTPWeek)
@@ -100,6 +102,6 @@ class BTPSubmission(models.Model):
 	week = models.ForeignKey(BTPSetWeek)
 	projectgroup = models.ForeignKey(BTPProjectGroup,null=True)
 	submitted_at = models.DateTimeField(auto_now = True)
-	fileuploaded = models.FileField(upload_to='/btp/evaluation/submissions/')
+	fileuploaded = models.FileField(upload_to='/static/btp/files/evaluation/submissions/')
 	submitted_by = models.ForeignKey(User)
 	

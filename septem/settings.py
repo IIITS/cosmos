@@ -9,7 +9,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '*********************************************'
+SECRET_KEY = '_8h_o-$0c70du3pc@6ff(sc)!_dn6l=zt1tblnd503yc(065n9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -68,9 +68,9 @@ WSGI_APPLICATION = 'septem.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '***************',
-        'USER': '***************',
-        'PASSWORD': '***************',
+        'NAME': '********',
+        'USER': '*************',
+        'PASSWORD': '*************',
     }
 }
 

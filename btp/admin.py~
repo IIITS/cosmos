@@ -8,9 +8,10 @@ admin.site.register(Faculty)
 admin.site.register(Semester)
 admin.site.register(BTPWeek)
 admin.site.register(BTPEvalPanel)
-admin.site.register(BTPEvalGroup)
+admin.site.register(BTPEvalSet)
 admin.site.register(BTPProjectGroup)
-admin.site.register(BTPGroupWeek)
+admin.site.register(BTPSetWeek)
+admin.site.register()
 
 admin.site.site_header = 'Cosmos Administrator'
 

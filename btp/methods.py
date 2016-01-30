@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.utils import timezone
-from btp.models import BTPWeek, BTPSubmission, Faculty, BTPSetWeek, BTPStudent, BTPProjectGroup
+from btp.models import *
 def is_in_past(time):
 	return timezone.now() > time
 def is_in_future(time):
@@ -18,7 +18,7 @@ def get_submissions_currentweek():
 	submissions = BTPSubmission.objects.all()
 	SubList = []
 	for btps in submissions:
-		if btps.week.weekno == get_current_week():
+		if btps.week.week.weekno == get_current_week():
 			SubList.append(btps)
 	return SubList
 
@@ -43,17 +43,25 @@ def getProjectGroupByStudentId(stid):
 	except KeyError:
 		return False
 	return False
-def checkIfAllowedBtpProjectSubmissionBySet(group, week):
-		setweek = BTPSetWeek.objects.get(sets=sets, week=week)
-		if groupweek.startdate() < timezone.now()  and groupweek.submitdeadline >= timezone.now():
-			return True
-		else: 
-			return False
 
-def getBtpProjectGroupByStudent(student):
-		bpgrp = BTPProject.objects.all()
-		for bpg in bpgrp:
-			if student.id in bpg.students:
-				return bpg
-		return False 
+def getBTPEvalSetByProjectGroup(group):
+	try:
+		evalset = BTPEvalSet.objects.get(projectgroups__contains=[group.id])
+		return evalset
+	except KeyError:
+		return False
+	return False
+    
+def getCurrentWeek():
+	weeks = BTPWeek.objects.all()
+	for week in weeks:
+    		if week.starttime <= timezone.now() and week.endtime >= timezone.now():
+				return week
+	return 0
+
+def getBTPSetWeek(sets, week):
+	btpsetweek =BTPSetWeek.objects.get(sets=sets, week=week)
+	return btpsetweek
+
+
 

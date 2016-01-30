@@ -19,4 +19,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </head>
 <div>
+	<p>Submission Deadline Ahead: {{ btpsetweek.submitdeadline }}</p>
+	<p>Your Evaluation day : {{ btpsetweek.evalday }}</p>
+	<p>Your current week started on {{ btpsetweek.sstarttime }} and ends on {{ btpsetweek.endtime }} </p>
+	<p>{{ btpsetweek.submitdeadline }}</p>
 </div>

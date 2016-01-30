@@ -61,11 +61,14 @@
     Week-1
   </div>
   <div class="mdl-card__actions mdl-card--border">
-    <form id="file-submit-form" method="post" enctype="multipart/data" >
-		
+    <form id="file-submit-form" method="post" enctype="multipart/form-data" >
+		{% csrf_token %}
 		<div class="fileUpload btn btn-primary">
     			
     			{{ submissionsform.fileuploaded }}
+				<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect disabled">
+  				Submit
+				</button>
 		</div>
 	</form>
   </div>

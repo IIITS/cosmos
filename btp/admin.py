@@ -11,6 +11,7 @@ admin.site.register(BTPEvalPanel)
 admin.site.register(BTPEvalSet)
 admin.site.register(BTPProjectGroup)
 admin.site.register(BTPSetWeek)
+admin.site.register(BTPSubmission)
 
 admin.site.site_header = 'Cosmos Administrator'
 
