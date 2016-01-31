@@ -13,7 +13,7 @@ from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import resolve_url
+from django.shortcuts import resolve_url,render
 from django.template.response import TemplateResponse
 
 class IndexView(TemplateView):
@@ -21,48 +21,70 @@ class IndexView(TemplateView):
 	def get_context_data(self, **kwargs):
 		context=super(IndexView,self).get_context_data(**kwargs)
 		context = {'title':'Cosmos'}
+		
 		return context
 	def dispatch(self, *args, **kwargs):
 		return super(IndexView,self).dispatch(*args,**kwargs)
 class BTPIndexView(TemplateView):
 	template_name = 'btp/btpindex.html'
+			
 	def post(self, request, *args, **kwargs):
-		form = SubmissionForm(self.request.FILES, self.request.POST)
-		print self.request.FILES['fileuploaded']
-                fileuploaded = self.request.FILES['fileuploaded']
-		currweek = getCurrentWeek()
-		pg = getProjectGroupByStudentId(getStudentIdByUser(self.request.user))
-		evalset = getBTPEvalSetByProjectGroup(pg)
-		try:
+		usertype = getUserTypes(self.request.user)
+		if usertype == "STUDENT":
+			form = SubmissionForm(self.request.FILES, self.request.POST)
+			print self.request.FILES['fileuploaded']
+                	fileuploaded = self.request.FILES['fileuploaded']
+			pg = getProjectGroupByStudentId(getStudentIdByUser(self.request.user))
+			evalset = getBTPEvalSetByProjectGroup(pg)
+			getAllBTPProjectGroupsByEvalSet(evalset)		
+			pgid = pg.id
+			try:
 				week = BTPSetWeek.objects.get(week = currweek, sets=evalset)
 				submit = BTPSubmission( week = week , projectgroup = pg, fileuploaded = fileuploaded, submitted_by = self.request.user )
 				submit.save()
-				return HttpResponse({"posted":"True"})
-		except ObjectDoesNotExist as error:
+				return JsonResponse({"posted":"True"})
+			except ObjectDoesNotExist as error:
 				week = BTPSetWeek.objects.all()[0]
 		return JsonResponse({"posted":"False"})
 	def get_context_data(self, **kwargs):
 		context=super(BTPIndexView,self).get_context_data(**kwargs)
 		
-		projects = BTPProject.objects.order_by('title')
-		faculty = Faculty.objects.order_by('user__first_name')
-		is_faculty = check_faculty(self.request.user)
 		students = BTPStudent.objects.order_by('rollno')
-		#submissions = get_submissions_currentweek()
-		mysubmissions = BTPSubmission.objects.filter(submitted_by = self.request.user).order_by('submitted_at')
-		sets = getBTPEvalSetByProjectGroup( getProjectGroupByStudentId(getStudentIdByUser(self.request.user)) )
-		week = getCurrentWeek()
-		btpsetweek = getBTPSetWeek(sets, week)
+		faculty = Faculty.objects.order_by('user__first_name')
+		
+		
 		context = {'title':'Home - BTP',
 			   'students':students,
 			   'faculty':faculty,
-			   #'submissions':submissions,
-			   'mysubmissions':mysubmissions,
-			   'btpsetweek':btpsetweek, 	
-			   'projects':projects,
-			   'header':'B-Tech Projects Portal',
-                           'submissionsform':SubmissionForm(self.request.FILES, self.request.POST)		
+			   
+			   
+			   'header':'B-Tech Projects Portal'
+                           		
 		}
+		usertypes = getUserTypes(self.request.user)
+                print usertypes
+		if "STUDENTS" in usertypes:
+			mysubmissions = BTPSubmission.objects.filter(submitted_by = self.request.user).order_by('submitted_at')
+			sets = getBTPEvalSetByProjectGroup( getProjectGroupByStudentId(getStudentIdByUser(self.request.user)) )
+			week = getCurrentWeek()
+			context['submissionsform']=SubmissionForm(self.request.FILES, self.request.POST)
+			currweek = getCurrentWeek()
+			pg = getProjectGroupByStudentId(getStudentIdByUser(self.request.user))
+			evalset = getBTPEvalSetByProjectGroup(pg)
+			btpgs = getAllBTPProjectGroupsByEvalSet(evalset)
+			context['pgid']= pg.id
+			context['evalset'] = evalset
+			context['btpgs'] = btpgs
+			if (week is not 0):
+				btpsetweek = getBTPSetWeek(sets, week)
+				context['btpsetweek'] = btpsetweek
+			context['usertype'] = 'students'
+		if "FACULTY" in usertypes:
+			print "faculty"
+			week = getCurrentWeek()
+			currweek = getCurrentWeek()
+			context['usertype'] = 'faculty'
+		
 		return context
 	def dispatch(self, *args, **kwargs):
 		return super(BTPIndexView,self).dispatch(*args,**kwargs)
@@ -81,26 +103,16 @@ class LoginView(FormView):
         		if user.is_active:
 				
             			login(self.request, user)
-			return HttpResponseRedirect(settings.LOGIN_URL)
+			return HttpResponseRedirect('/')
 		return super(LoginView,self).form_valid(form)
 	def form_invalid(self,form):
-		print "here"
-		return super(LoginView,self).form_invalid(form)
+		return render(self.request, self.template_name, {'form': form, 'form_error':'Sorry, username or password incorrect!' } )
 	def get_context_data(self,**kwargs):	
 		context = super(LoginView,self).get_context_data(**kwargs)
 		context = {'title':'Login - Septem',
 			   'form':LoginForm(self.request.POST)	
 		}
 		return context
-
-class WeekScheduleView(TemplateView):
-	template_name = 'index.html'
-	def get_context_data(self, **kwargs):
-		context = {'title':'Schedules - BTP'}
-		return context
-	def dispatch(self, *args, **kwargs):
-		return super(WeekScheduleView,self).dispatch(*args,**kwargs)
-
 
 @sensitive_post_parameters()
 @csrf_protect

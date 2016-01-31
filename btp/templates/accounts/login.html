@@ -13,6 +13,10 @@
     <!-- Page styles -->
     <link rel="stylesheet" href="{% static 'index/css/material.min.css' %}">
     <link rel="stylesheet" href="{% static 'index/css/styles.css' %}">
+	<style>
+		#login-form-container{ opacity:1; position:fixed; z-index:2001; left:36%; }
+		#prelogin-overlay{ background:black; opacity:0.8; position:fixed; z-index:1001; width:100%; height:100vh; top:0; left:0;  }	
+	</style>
   </head>
   <body>
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -29,11 +33,11 @@
             <nav class="septem-navigation mdl-navigation">
               <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/btp/">BTP</a>
               <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/honors/">HONORS</a>
-              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/research/">RESEARCH</a>
               <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/internships/">INTERNSHIPS</a>
+	      <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/placements/">PLACEMENTS</a>	
               <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/ideas/">IDEAS</a>
-              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/ventures/">VENTURES</a>
-              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/placements/">PLACEMENTS</a>
+              <a class="mdl-navigation__link mdl-typography--text-uppercase" href="/entrepreneurships/">ENTREPRENEURSHIPS</a>
+              
             </nav>
           </div>
           <span class="septem-mobile-title mdl-layout-title">
@@ -57,17 +61,21 @@
 
       <div class="septem-content mdl-layout__content">
         <a name="top"></a>
-        <div class="septem-be-together-section mdl-typography--text-center">
+		<div id="prelogin-overlay"></div>
+        <div  class="septem-be-together-section mdl-typography--text-center">
           <div class="logo-font septem-slogan">Together towards a smart living.</div>
           <div class="logo-font septem-sub-slogan">Welcome to IIIT-S Cosmos... The Universe of Projects, Research, Innovations and Entrepreneurships </div>
           {% ifequal user.is_active False %}
-		  <center class="septem-login-form mdl-card mdl-shadow--2dp">
+		  <center id="login-form-container" class="septem-login-form mdl-card mdl-shadow--2dp">
           	<div class="septem-login-form-card-title mdl-card__title">
           		<h2 class="mdl-card__title-text">Please Login</h2>
           	</div>
   			<div class="mdl-card__supporting-text">
   				<form action="" method="post">
           			{%csrf_token%}
+					{% if form.non_field_errors %}
+						{{ form_error }}
+					{% endif %}
   					<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
     					{{form.username}}
     					<label class="mdl-textfield__label" for="username">Enter your Email...</label>

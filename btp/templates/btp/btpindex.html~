@@ -4,16 +4,11 @@
      <div id="deadline-view">
         {% include 'btp/btp_deadline.html' %}       
      </div>
-     	
      <div id="faculty-view">
         {% include 'btp/btp_faculty.html' %}
      </div>
-     <div id="projects-view">
-        {% include 'btp/btp_projects.html' %}
-     </div>
-     <div id="submissions-view">
-        {% include 'btp/btp_submissions.html' %} 
-     </div>
+     
+   
      <div id="students-view">
         {% include 'btp/btp_students.html' %}       
      </div>

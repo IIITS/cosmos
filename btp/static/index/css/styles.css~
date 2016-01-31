@@ -124,7 +124,7 @@ a img{
   }
 
     .septem-navigation .mdl-navigation__link:hover {
-      border-bottom: 4px solid #660029;
+      border-bottom: 4px solid black;
     }
 
  
@@ -285,12 +285,13 @@ a img{
     top: 6px;
   }
 .septem-login-form{
-	margin:10px auto;
+	margin:50px auto;
 }
 .septem-login-form-card-title{
 	height:60px;
 	background:url('../images/login-title.jpg') center/cover;
 	color:white;
+	padding: 10px 72px !important;
 }
 .septem-more-button {
     -webkit-box-ordinal-group: 4;

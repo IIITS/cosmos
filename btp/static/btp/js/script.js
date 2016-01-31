@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var hideit = ['#faculty-view', '#projects-view', '#students-view','#submit-view','#submissions-view', '#deadline-view', '#home-view'];
+    var hideit = ['#faculty-view', '#students-view','#submit-view', '#deadline-view'];
     for(var i=0; i<hideit.length; i++){
 	$(hideit[i]).hide();	
     }	
@@ -22,12 +22,7 @@ $(document).ready(function(){
     }
     $('#students-view').show();
     });
-    $('#projects-link').click(function(){
-    for(var i=0; i<hideit.length; i++){
-	$(hideit[i]).hide();	
-    }
-    $('#projects-view').show();
-    });
+    
     $('#submissions-link').click(function(){
     
     for(var i=0; i<hideit.length; i++){

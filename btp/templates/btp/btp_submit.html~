@@ -34,34 +34,41 @@
 		    opacity: 0;
 		    filter: alpha(opacity=0);
 		}
-		.demo-card-wide.mdl-card {
-		  width: 100%;
-		}
-		.demo-card-wide > .mdl-card__title {
-		  color: #blue;
-		  height: 176px;
-		  margin:auto;	
-		  
+		.upload-card-wide.mdl-card{
+		width:100%;
+	}
+.sub-card-wide.mdl-card {
+    width: 100%;
 }
-.demo-card-wide > .mdl-card__menu {
-  color: #blue;
+.sub-card-wide > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: url('../static/btp/img/fac-card.jpg') center / cover;
 }
-
+.sub-card-wide > .mdl-card__menu {
+  color: #fff;
+}
 	</style>
+</head>
+<div class="sub-card-wide mdl-card mdl-shadow--2dp">
+  <div class="mdl-card__title">
+    <h2 class="mdl-card__title-text">My Submissions</h2>
+  </div>
+  <div class="mdl-card__supporting-text">
+   Submissions made by my group.
+  </div>
 </head>
 <div class="submit-here">
 
 
 
-<div class="demo-card-wide mdl-card mdl-shadow--2dp">
+<div class="upload-card-wide mdl-card mdl-shadow--2dp">
   <div class="mdl-card__title">
     <h2 class="mdl-card__title-text">Upload your file here</h2>
   </div>
-  <div class="mdl-card__supporting-text">
-    Week-1
-  </div>
+  
   <div class="mdl-card__actions mdl-card--border">
-    <form id="file-submit-form" method="post" enctype="multipart/data" >
+    <form id="file-submit-form" method="post" enctype="multipart/form-data" >
 		{% csrf_token %}
 		<div class="fileUpload btn btn-primary">
     			

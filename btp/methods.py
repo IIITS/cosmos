@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.utils import timezone
 from btp.models import *
+WEEK_MAX = 4
 def is_in_past(time):
 	return timezone.now() > time
 def is_in_future(time):
@@ -51,12 +52,36 @@ def getBTPEvalSetByProjectGroup(group):
 	except KeyError:
 		return False
 	return False
+def getAllBTPProjectGroupsByEvalSet(evalset):
+	ProjectGroups = [] 
+	pg_evalset = evalset.projectgroups
+	for es in pg_evalset:
+		btpgs = BTPProjectGroup.objects.get(id = es)
+		ProjectGroups.append(btpgs)
+	return ProjectGroups
     
+def getUserTypes(user):
+	USERTYPELIST = []
+	facs = Faculty.objects.all()
+	studs = BTPStudent.objects.all()
+	for f in facs:
+		if user == f.user:
+			USERTYPELIST.append("FACULTY")	
+			break
+	for s in studs:
+		if user == s.user:
+			USERTYPELIST.append("STUDENT")	
+			break
+	return USERTYPELIST
 def getCurrentWeek():
 	weeks = BTPWeek.objects.all()
 	for week in weeks:
     		if week.starttime <= timezone.now() and week.endtime >= timezone.now():
 				return week
+		elif week.starttime >= timezone.now():
+				return BTPWeek.objects.get(weekno=1)
+		elif week.endtime <= timezone.now():
+				return BTPWeek.objects.get(weekno= WEEK_MAX)
 	return 0
 
 def getBTPSetWeek(sets, week):

@@ -49,13 +49,22 @@
         {% endblock %}
         {% block nav %}
         <nav class="demo-navigation mdl-navigation header-mast">
-          <a id="deadline-link" class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">today</i>Deadlines</a>	 
-          <a id="faculty-link" class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">account_circle</i>Faculty</a>
+	  {% ifequal usertype 'students' %}	
+          <a id="deadline-link" class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">today</i>My Deadlines</a>	 
+          <a id="faculty-link" class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">account_circle</i>Faculty &amp; Projects</a>
           <a id="students-link"class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">account_box</i>Students</a>
-          <a id="projects-link" class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">assignment</i>Projects</a>
-          <a id="submissions-link" class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">check_circle</i>Submissions</a>
-          <a id="submit-link" class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">fingerprint</i>Submit</a>
+         
           
+          <a id="submit-link" class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">fingerprint</i>My Submissions</a>
+          {% endifequal %}
+	  {% ifequal usertype 'faculty' %}
+          <a id="deadline-link" class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">today</i>My Students Deadlines</a>	 
+          <a id="faculty-link" class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">account_circle</i>Faculty &amp; Projects</a>
+          <a id="students-link"class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">account_box</i>Students</a>
+         
+          
+          <a id="submit-link" class="mdl-navigation__link " ><i class="mdl-color-text--white-400 material-icons" role="presentation">fingerprint</i>My Students Submissions</a>
+	  {% endifequal %}	
           <div class="mdl-layout-spacer"></div>
           <a class="mdl-navigation__link" ><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">help_outline</i><span class="visuallyhidden">Docs</span></a>
         </nav>
