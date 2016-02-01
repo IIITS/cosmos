@@ -5,6 +5,10 @@ from django.contrib.postgres.fields import ArrayField
 from btp import choices
 import datetime
 
+def content_file_name(instance, filename):
+    return '/'.join(['evaluation/submissions', str(instance.projectgroup.project.code)+'_Report_'+str(instance.week.week.weekno)+"."+str(filename.split('.')[-1])])
+
+
 class Application(models.Model):
 	name = models.CharField(max_length=50)
 
@@ -102,6 +106,12 @@ class BTPSubmission(models.Model):
 	week = models.ForeignKey(BTPSetWeek)
 	projectgroup = models.ForeignKey(BTPProjectGroup,null=True)
 	submitted_at = models.DateTimeField(auto_now = True)
-	fileuploaded = models.FileField(upload_to='/static/btp/files/evaluation/submissions/')
+	fileuploaded = models.FileField(upload_to=content_file_name)
 	submitted_by = models.ForeignKey(User)
-	
+	def get_filename(self):
+		fname=str(self.projectgroup.project.code)+'_Report_'+str(self.week.week.weekno)+"."+str(self.fileuploaded.name.split('.')[-1])
+		return fname
+
+class Resources(models.Model):
+	code = models.CharField(max_length = 25) 
+	fileupload = models.FileField(upload_to='/static/btp/files/')

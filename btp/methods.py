@@ -30,6 +30,14 @@ def check_faculty(user):
 			return True
 	return False
 
+def getFacultyIdByUser(user):
+	try:
+		fac = Faculty.objects.get(user=user)
+		return fac.id
+	except KeyError:
+		return False
+	return False
+
 def getStudentIdByUser(user):
 	try:
 		student = BTPStudent.objects.get(user=user)
@@ -64,6 +72,7 @@ def getUserTypes(user):
 	USERTYPELIST = []
 	facs = Faculty.objects.all()
 	studs = BTPStudent.objects.all()
+	evalpanels = BTPEvalPanel.objects.all() 
 	for f in facs:
 		if user == f.user:
 			USERTYPELIST.append("FACULTY")	
@@ -72,7 +81,32 @@ def getUserTypes(user):
 		if user == s.user:
 			USERTYPELIST.append("STUDENT")	
 			break
+	for ep in evalpanels:
+		fac = Faculty.objects.filter(user=user)
+		if len(fac) == 1:
+			facid = fac[0].id
+		else:
+			facid = 0
+		if facid in ep.members:
+			USERTYPELIST.append("EVAL")
 	return USERTYPELIST
+
+def getAllProjectGroupsFaculty(facultyid):
+	btpProjectGroups = BTPProjectGroup.objects.filter(faculty__contains=[int(facultyid)])
+	return btpProjectGroups
+
+def getAllSubmissionsPG(progroup):
+	subs = BTPSubmission.objects.filter(projectgroup=progroup)
+	return subs
+
+def getAllSubmissionsThisWeek(week):
+	SUBS = []
+	btpsetweek = BTPSetWeek.objects.filter(week=week)
+	for bsw in btpsetweek:
+		submissions =BTPSubmission.objects.filter(week=bsw)
+		for sb in submissions:
+			SUBS.append(sb) 	
+	return SUBS
 def getCurrentWeek():
 	weeks = BTPWeek.objects.all()
 	for week in weeks:
@@ -88,5 +122,29 @@ def getBTPSetWeek(sets, week):
 	btpsetweek =BTPSetWeek.objects.get(sets=sets, week=week)
 	return btpsetweek
 
+def getProjectGroupEvalDay(grouplist):
+		GPEVALDAY = []
+		week = getCurrentWeek()
+		for group in grouplist:
+			evalset = getBTPEvalSetByProjectGroup(group)
+			SetWeek = BTPSetWeek.objects.get(sets = evalset, week=week )
+			evalday = SetWeek.evalday
+			group_updated = { 'group' : group, 'evalday' : evalday }
+			GPEVALDAY.append(group_updated)
+		
+		return GPEVALDAY
 
+def getMyGroupSubmission(pg,week):
+	
+	submissions = BTPSubmission.objects.filter(week=week,projectgroup=pg)
+	return submissions
+def getMyStudentSubmissions(pgs,week):
+	SUBS = [] 
+	for pg in pgs:
+		subs = BTPSubmission.objects.filter( projectgroup=pg)
+		if len(subs) >0:
+			SUBS.append(subs)
+	return SUBS
 
+def content_file_name(instance, filename):
+    return '/'.join(['static/btp/files/evaluation/submissions', str(instance.projectgroup.project.code)+'_Report_'+str(instance.week.week.weekno)+"."+str(filename.split('.')[-1])])

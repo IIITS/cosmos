@@ -3,7 +3,7 @@ $(document).ready(function(){
     for(var i=0; i<hideit.length; i++){
 	$(hideit[i]).hide();	
     }	
-    $('#deadline-view').show();	
+    $('#submit-view').show();	
     $('#deadline-link').click(function(){
 	for(var i=0; i<hideit.length; i++){
 	$(hideit[i]).hide();

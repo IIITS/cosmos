@@ -31,12 +31,13 @@
 }
 	</style>
 </head>
+{% ifequal usertype 'students' %}
 <div class="deadline-card-wide mdl-card mdl-shadow--2dp">
   <div class="mdl-card__title">
-    <h2 class="mdl-card__title-text">My Deadlines</h2>
+    <h2 class="mdl-card__title-text">{% ifequal usertype 'students' %}My Deadlines{%endifequal%}{% ifequal usertype 'faculty' %}Deadlines of my students {% endifequal%}</h2>
   </div>
   <div class="mdl-card__supporting-text">
-    Upcoming deadlines for me.
+   {% ifequal usertype 'students' %} Upcoming deadlines for me.{% endifequal %}{% ifequal usertype 'faculty' %}Upcoming evaluations for my students {%endifequal%}
   </div>
   
   
@@ -45,7 +46,7 @@
 <center>
 {% ifequal usertype 'students' %}
 <h5>My evaluation and deadlines</h5>
-{% endifequal %}
+
 </center>	
 <center><table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
 	 
@@ -96,6 +97,29 @@
   </tbody>
 </table>
 </center>
-
+{% endifequal %}
+{% ifequal usertype 'faculty' %}
+<center><h5>Upcoming evaluations of my students</h5></center>
+<center><table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+  
+  <tbody>
+    	
+    {% for evalday in evaldays%}	
+    <tr>
+     	
+      <td class="mdl-data-table__cell--non-numeric" >
+		
+	{{ evalday.group.project }}
+      </td>
+	<td class="mdl-data-table__cell--non-numeric" >
+		
+	{{ evalday.evalday }}
+      </td>
+     </tr>
+    {% endfor%}
+  </tbody>
+</table>
+</center>
+{% endifequal %}
 
 
