@@ -143,8 +143,48 @@ def getMyStudentSubmissions(pgs,week):
 	for pg in pgs:
 		subs = BTPSubmission.objects.filter( projectgroup=pg)
 		if len(subs) >0:
-			SUBS.append(subs)
+			for x in subs:
+				SUBS.append(x)
 	return SUBS
 
 def content_file_name(instance, filename):
     return '/'.join(['static/btp/files/evaluation/submissions', str(instance.projectgroup.project.code)+'_Report_'+str(instance.week.week.weekno)+"."+str(filename.split('.')[-1])])
+def getContentMail(submission):
+	project = submission.projectgroup.project
+	week=submission.week.week
+	projectsupervisor = project.supervisor
+	projectstudents = submission.projectgroup.students
+	sup_list = ''
+	stu_list = ''
+	for ps in projectsupervisor:
+		f = Faculty.objects.get(id=ps).user.get_full_name()
+		sup_list+=str(f)+' '
+	for st in projectstudents:
+		s = BTPStudent.objects.get(id=st).user.get_full_name()
+		stu_list+=str(s)+ ' '
+	content = 'Dear Sir,\n \t This is an auto-generated email to inform you that project group '+ str(project) + ' has submitted their report for ' + str(week)+ '.'+'\nProject Supervisor(s): '+ str(sup_list) +'\nStudents: '+str(stu_list)+'\nRegards,\n no_reply.btpc@iiits.in'
+	return content
+def getSubjectMail(submission):
+	project = submission.projectgroup.project
+	week=submission.week.week
+	subject = str(project) + ' report for ' +str(week)+ ' submitted'
+	return subject
+def getMailingList(submission):
+  	ML = ['sahalsajjad@gmail.com']
+	'''
+  	panelmemids = submission.week.sets.panel.members
+  	for memid in panelmemids:
+		femail =Faculty.objects.get(id=memid).user.email
+		ML.append(femail)
+        '''
+  	students = submission.projectgroup.students
+	supervisors = submission.projectgroup.faculty
+	'''
+	for sid in students:
+		semail = BTPStudent.objects.get(id=sid).user.email
+		ML.append(semail)
+	for supid in supervisors:
+		supemail = Faculty.objects.get(id=supid).user.email
+		ML.append(supemail)
+	'''
+	return ML	

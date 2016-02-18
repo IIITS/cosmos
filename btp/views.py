@@ -1,9 +1,8 @@
 from btp.models  import *
 from btp.forms   import *
 from btp.methods import *
-import json
+
 from django.core.exceptions import *
-from django.core.mail import send_mail
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 from django.conf import settings
@@ -29,6 +28,36 @@ class IndexView(TemplateView):
 class BTPIndexView(TemplateView):
 	template_name = 'btp/btpindex.html'
 			
+	def post(self, request, *args, **kwargs):
+		usertype = getUserTypes(self.request.user)
+		if "STUDENT" in usertype:
+			form = SubmissionForm(self.request.FILES, self.request.POST)
+			print self.request.FILES['fileuploaded']
+                	fileuploaded = self.request.FILES['fileuploaded']
+			
+
+			pg = getProjectGroupByStudentId(getStudentIdByUser(self.request.user))
+			evalset = getBTPEvalSetByProjectGroup(pg)
+			getAllBTPProjectGroupsByEvalSet(evalset)		
+			pgid = pg.id
+			try:
+				currweek = getCurrentWeek()
+				week = BTPSetWeek.objects.get(week = currweek, sets=evalset)
+				try:
+					submit = BTPSubmission.objects.get(week = week , projectgroup = pg)
+		
+					submit.fileuploaded = fileuploaded
+					submit.submitted_by = self.request.user 
+					
+					submit.save()
+				except ObjectDoesNotExist as error:
+					submit = BTPSubmission( week = week , projectgroup = pg, fileuploaded = fileuploaded, submitted_by = self.request.user )
+					submit.save()
+				return JsonResponse({"posted":"True"})
+			except ObjectDoesNotExist as error:
+				week = BTPSetWeek.objects.all()[0]
+				print "Here"
+		return JsonResponse({"posted":"False"})
 	def get_context_data(self, **kwargs):
 		context=super(BTPIndexView,self).get_context_data(**kwargs)
 		
@@ -45,11 +74,12 @@ class BTPIndexView(TemplateView):
 		}
 		usertypes = getUserTypes(self.request.user)
                 print usertypes
-		week = getCurrentWeek()
 		if "STUDENT" in usertypes:
 			mysubmissions = BTPSubmission.objects.filter(submitted_by = self.request.user).order_by('submitted_at')
 			sets = getBTPEvalSetByProjectGroup( getProjectGroupByStudentId(getStudentIdByUser(self.request.user)) )
+			week = getCurrentWeek()
 			context['submissionsform']=SubmissionForm(self.request.FILES, self.request.POST)
+			currweek = getCurrentWeek()
 			pg = getProjectGroupByStudentId(getStudentIdByUser(self.request.user))
 			evalset = getBTPEvalSetByProjectGroup(pg)
 			btpgs = getAllBTPProjectGroupsByEvalSet(evalset)
@@ -58,24 +88,25 @@ class BTPIndexView(TemplateView):
 			context['pgid']= pg.id
 			context['evalset'] = evalset
 			context['btpgs'] = btpgs
+			
 			context['btpsetweek'] = btpsetweek
 			context['usertype'] = 'students'
 			context['submissions'] = mysubmissions
-			context['evalpanel'] = False
 		if "FACULTY" in usertypes:
 			facid = getFacultyIdByUser(self.request.user)
+			week = getCurrentWeek()
+			currweek = getCurrentWeek()
 			pgs = getAllProjectGroupsFaculty(facid)
 			evaldays = getProjectGroupEvalDay(pgs)
 			sortedevaldays = sorted(evaldays, key=lambda k: k['evalday']) 
-			SUBMISSIONS = getMyStudentSubmissions(pgs,week)
+			SUBMISSIONS = []	
+			for pg in pgs:
+				sub = getAllSubmissionsPG(pg)
+				SUBMISSIONS.append(sub)
 			context['mystudentsubmissions'] = SUBMISSIONS
 			context['usertype'] = 'faculty'
 			context['pgs'] = pgs
 			context['evaldays'] = sortedevaldays
-			context['evalpanel'] = False
-		if "EVAL" in usertypes:
-			context['evalpanel'] = True
-			context['all_submissions_week'] = getAllSubmissionsThisWeek(week)
 		return context
 	def dispatch(self, *args, **kwargs):
 		return super(BTPIndexView,self).dispatch(*args,**kwargs)
@@ -142,7 +173,6 @@ class UnderConstruction(TemplateView):
 	template_name = 'index/underconstruction.html'
 	def dispatch(self, *args, **kwargs):
 		return super(UnderConstruction,self).dispatch(*args, **kwargs)
-
 @csrf_exempt
 def submit_report( request):
 	if request.is_ajax:

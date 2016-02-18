@@ -63,6 +63,7 @@ class Semester(models.Model):
 	start = models.DateField() 
 	end = models.DateField()
 class BTPWeek(models.Model):
+	semester = models.ForeignKey(Semester)
 	weekno = models.PositiveIntegerField(default=0)
 	starttime = models.DateTimeField()
 	endtime = models.DateTimeField()
@@ -115,3 +116,55 @@ class BTPSubmission(models.Model):
 class Resources(models.Model):
 	code = models.CharField(max_length = 25) 
 	fileupload = models.FileField(upload_to='/static/btp/files/')
+
+class BTPMarks(models.Model):
+	semester = models.ForeignKey(Semester) 
+	projectgroup = models.ForeignKey(BTPProjectGroup)
+	panelmarks = models.PositiveIntegerField(default=0)
+	panelstrength = models.PositiveIntegerField(default=0)
+	paneltime = models.DateTimeField(auto_now=False, auto_now_add = False)
+	externalmarks = models.PositiveIntegerField(default=0)
+	externaltime = models.DateTimeField(auto_now=False, auto_now_add = False)
+	btpcmarks = models.PositiveIntegerField(default=0)
+	btpctime = models.DateTimeField(auto_now=False, auto_now_add = False)
+	supervisormarks = models.PositiveIntegerField(default=0)
+	supervisortime = models.DateTimeField(auto_now=False, auto_now_add = False)
+	bonusmarks = models.PositiveIntegerField(default=0)
+	bonusmarkstime = models.DateTimeField(auto_now=False, auto_now_add = False)
+	btpweek = models.ForeignKey(BTPWeek)
+
+	def supervisorMarksEntry(self, marks, time):
+		self.supervisormarks = marks
+		self.supervisortime = time
+		return True
+	def panelMarksEntry(self,marks, time):
+		pmarks = self.panelmarks
+		pmarks = pmarks + marks
+		self.panelmarks = pmarks
+		self.panelstrength = self.panelstrength + 1
+		self.paneltime = time
+		return True
+	def btpcMarksEntry(self,marks,time):
+		self.btpcmarks = marks
+		self.btpctime = time
+		return True 	
+	def bonusMarksEntry(self, marks, time):
+            	self.bonusmarks = marks
+		self.bonusmarkstime = time
+		return True		
+	def externalMarksEntry(self, marks, time):
+		self.externalmarks = marks
+		self.externaltime = time
+		return True
+
+	def getSuperVisorMarks(self):
+		return self.supervisormarks 
+	def getBTPCMarks(self):
+		return self.btpcmarks
+	def getExternalMarks(self):
+		return self.externalmarks
+	def getBonusMarks(self):
+		return self.bonusmarks
+	def getPanelMarks(self):
+		return ( self.panelmarks * 1.0) / ( self.panelstrength * 1.0)
+

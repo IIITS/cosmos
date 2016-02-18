@@ -72,7 +72,7 @@
 {% ifequal usertype 'students' %}
 
 <div class="upload-card-wide mdl-card mdl-shadow--2dp">
-  
+    {% if before_deadline %}
     <center><h5>Please  upload your report here</h5></center>
   
   
@@ -89,7 +89,11 @@
 	</form>
     <a href="{{MEDIA_URL}}btp/files/BTP_Questionnaire_Spring_2016.docx">Template Questionnaire</a>
   </center>
-  
+  {%endif%}
+
+  {% if after_deadline %}
+  <center><h4>Upload option is closed. Deadline ended!</h4></center>	
+  {%endif%}	
 </div>
 <center><h5>Submissions made by my Group</h5></center>
 
@@ -110,7 +114,7 @@
 {% endfor %}
 </center>
 {% endifequal %}
-{{evalpanel }}
+
 {% if evalpanel %}
 <center><h5>Submissions made by all Students this week</h5></center>
 

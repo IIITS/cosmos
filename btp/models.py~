@@ -6,7 +6,7 @@ from btp import choices
 import datetime
 
 def content_file_name(instance, filename):
-    return '/'.join(['/static/btp/files/evaluation/submissions', str(instance.projectgroup.project.code)+'_Report_'+str(instance.week.week.weekno)+"."+str(filename.split('.')[-1])])
+    return '/'.join(['evaluation/submissions', str(instance.projectgroup.project.code)+'_Report_'+str(instance.week.week.weekno)+"."+str(filename.split('.')[-1])])
 
 
 class Application(models.Model):
@@ -110,7 +110,9 @@ class BTPSubmission(models.Model):
 	submitted_by = models.ForeignKey(User)
 	def get_filename(self):
 		fname=str(self.projectgroup.project.code)+'_Report_'+str(self.week.week.weekno)+"."+str(self.fileuploaded.name.split('.')[-1])
-		return fname
+		return fname	
+	def __str__(self):
+		return str(self.projectgroup) +' '+ str(self.week)
 
 class Resources(models.Model):
 	code = models.CharField(max_length = 25) 
