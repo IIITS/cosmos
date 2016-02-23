@@ -15,7 +15,7 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import resolve_url,render
 from django.template.response import TemplateResponse
-
+from django.core.mail import send_mail
 class IndexView(TemplateView):
 	template_name = 'index/index.html'
 	def get_context_data(self, **kwargs):
@@ -188,18 +188,26 @@ def submit_report( request):
 			getAllBTPProjectGroupsByEvalSet(evalset)		
 			pgid = pg.id
                         response_data = {}
+			print "here"
 			try:
 				currweek = getCurrentWeek()
 				week = BTPSetWeek.objects.get(week = currweek, sets=evalset)
 				try:
 					submit = BTPSubmission.objects.get(week = week , projectgroup = pg)
-		
 					submit.fileuploaded = fileuploaded
-					submit.submitted_by = request.user 
+					submit.submitted_by = request.user
+					send_mail(subject, message, 'btpc@iiits.in',to_list, fail_silently=False)
+		
 					
 					submit.save()
 				except ObjectDoesNotExist as error:
+					
 					submit = BTPSubmission( week = week , projectgroup = pg, fileuploaded = fileuploaded, submitted_by = request.user )
+					subject = getSubjectMail(submit)
+					message = getContentMail(submit)
+					to_list = getMailingList(submit)
+					
+					send_mail(subject, message, 'btpc@iiits.in',to_list, fail_silently=False)
 					submit.save()
 					response_data['status'] = 200	
 				
