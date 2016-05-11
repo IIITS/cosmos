@@ -16,7 +16,10 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import resolve_url,render
 from django.template.response import TemplateResponse
 from django.core.mail import send_mail
+<<<<<<< HEAD
 
+=======
+>>>>>>> 4c2e773a25b1a0c63e5e45be446d35fdc05e56b4
 class IndexView(TemplateView):
 	template_name = 'index/index.html'
 	def get_context_data(self, **kwargs):
