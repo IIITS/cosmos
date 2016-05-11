@@ -187,4 +187,6 @@ def getMailingList(submission):
 		supemail = Faculty.objects.get(id=supid).user.email
 		ML.append(supemail)
 	
-	return ML	
+	return ML
+def checkBeforeDeadline(btpsetweek):
+		return ( timezone.now() < btpsetweek.submitdeadline )	

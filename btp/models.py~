@@ -63,6 +63,7 @@ class Semester(models.Model):
 	start = models.DateField() 
 	end = models.DateField()
 class BTPWeek(models.Model):
+	semester = models.ForeignKey(Semester)
 	weekno = models.PositiveIntegerField(default=0)
 	starttime = models.DateTimeField()
 	endtime = models.DateTimeField()
@@ -108,12 +109,64 @@ class BTPSubmission(models.Model):
 	submitted_at = models.DateTimeField(auto_now = True)
 	fileuploaded = models.FileField(upload_to=content_file_name)
 	submitted_by = models.ForeignKey(User)
+	def __str__(self):
+		return str(self.week) + str(self.projectgroup) 
 	def get_filename(self):
 		fname=str(self.projectgroup.project.code)+'_Report_'+str(self.week.week.weekno)+"."+str(self.fileuploaded.name.split('.')[-1])
-		return fname	
-	def __str__(self):
-		return str(self.projectgroup) +' '+ str(self.week)
+		return fname
 
 class Resources(models.Model):
 	code = models.CharField(max_length = 25) 
 	fileupload = models.FileField(upload_to='/static/btp/files/')
+
+class BTPMarks(models.Model):
+	semester = models.ForeignKey(Semester) 
+	projectgroup = models.ForeignKey(BTPProjectGroup)
+	panelmarks = models.PositiveIntegerField(default=0)
+	panelstrength = models.PositiveIntegerField(default=0)
+	paneltime = models.DateTimeField(auto_now=True, auto_now_add = False)
+	externalmarks = models.PositiveIntegerField(default=0)
+	externaltime = models.DateTimeField(auto_now=True, auto_now_add = False)
+	btpcmarks = models.PositiveIntegerField(default=0)
+	btpctime = models.DateTimeField(auto_now=True, auto_now_add = False)
+	supervisormarks = models.PositiveIntegerField(default=0)
+	supervisortime = models.DateTimeField(auto_now=True, auto_now_add = False)
+	bonusmarks = models.PositiveIntegerField(default=0)
+	bonusmarkstime = models.DateTimeField(auto_now=True, auto_now_add = False)
+	btpweek = models.ForeignKey(BTPWeek)
+
+	def supervisorMarksEntry(self, marks, week):
+		self.supervisormarks = marks
+		
+		return True
+	def panelMarksEntry(self,marks, week):
+		pmarks = self.panelmarks
+		pmarks = pmarks + marks
+		self.panelmarks = pmarks
+		self.panelstrength = self.panelstrength + 1
+		
+		return True
+	def btpcMarksEntry(self,marks,week):
+		self.btpcmarks = marks
+		
+		return True 	
+	def bonusMarksEntry(self, marks, time):
+            	self.bonusmarks = marks
+		self.bonusmarkstime = time
+		return True		
+	def externalMarksEntry(self, marks):
+		self.externalmarks = marks
+		
+		return True
+
+	def getSuperVisorMarks(self):
+		return self.supervisormarks 
+	def getBTPCMarks(self):
+		return self.btpcmarks
+	def getExternalMarks(self):
+		return self.externalmarks
+	def getBonusMarks(self):
+		return self.bonusmarks
+	def getPanelMarks(self):
+		return ( self.panelmarks * 1.0) / ( self.panelstrength * 1.0)
+

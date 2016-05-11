@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.auth.views import password_reset, logout
 from django.contrib.auth.forms import *
 from django.contrib.auth.decorators import login_required
+
 urlpatterns = [
 	url(r'^$', login_required(views.IndexView.as_view()), name='homepage'),
 	url(r'btp/$', login_required(views.BTPIndexView.as_view()),name='btphomepage'),

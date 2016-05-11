@@ -68,11 +68,12 @@ WSGI_APPLICATION = 'septem.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '**********',
-        'USER': '**********',
-        'PASSWORD': '**********',
+        'NAME': 'btp',
+        'USER': 'sahalsajjad',
+        'PASSWORD': 'subhanallah',
     }
 }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -107,6 +108,6 @@ MEDIA_URL = '/media/'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'btpc@iiits.in'
-EMAIL_HOST_PASSWORD = '**************'
+EMAIL_HOST_PASSWORD = 'btpc@987#'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True

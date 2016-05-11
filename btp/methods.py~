@@ -170,21 +170,23 @@ def getSubjectMail(submission):
 	subject = str(project) + ' report for ' +str(week)+ ' submitted'
 	return subject
 def getMailingList(submission):
-  	ML = ['sahalsajjad@gmail.com']
-	'''
+  	ML = ['sahal.k13@iiits.in']
+	
   	panelmemids = submission.week.sets.panel.members
   	for memid in panelmemids:
 		femail =Faculty.objects.get(id=memid).user.email
 		ML.append(femail)
-        '''
+
   	students = submission.projectgroup.students
 	supervisors = submission.projectgroup.faculty
-	'''
+	
 	for sid in students:
 		semail = BTPStudent.objects.get(id=sid).user.email
 		ML.append(semail)
 	for supid in supervisors:
 		supemail = Faculty.objects.get(id=supid).user.email
 		ML.append(supemail)
-	'''
-	return ML	
+	
+	return ML
+def checkBeforeDeadline(btpsetweek):
+		return ( timezone.now() < btpsetweek.submitdeadline )	

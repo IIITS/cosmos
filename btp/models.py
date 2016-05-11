@@ -109,6 +109,8 @@ class BTPSubmission(models.Model):
 	submitted_at = models.DateTimeField(auto_now = True)
 	fileuploaded = models.FileField(upload_to=content_file_name)
 	submitted_by = models.ForeignKey(User)
+	def __str__(self):
+		return str(self.week) + str(self.projectgroup) 
 	def get_filename(self):
 		fname=str(self.projectgroup.project.code)+'_Report_'+str(self.week.week.weekno)+"."+str(self.fileuploaded.name.split('.')[-1])
 		return fname
@@ -122,39 +124,39 @@ class BTPMarks(models.Model):
 	projectgroup = models.ForeignKey(BTPProjectGroup)
 	panelmarks = models.PositiveIntegerField(default=0)
 	panelstrength = models.PositiveIntegerField(default=0)
-	paneltime = models.DateTimeField(auto_now=False, auto_now_add = False)
+	paneltime = models.DateTimeField(auto_now=True, auto_now_add = False)
 	externalmarks = models.PositiveIntegerField(default=0)
-	externaltime = models.DateTimeField(auto_now=False, auto_now_add = False)
+	externaltime = models.DateTimeField(auto_now=True, auto_now_add = False)
 	btpcmarks = models.PositiveIntegerField(default=0)
-	btpctime = models.DateTimeField(auto_now=False, auto_now_add = False)
+	btpctime = models.DateTimeField(auto_now=True, auto_now_add = False)
 	supervisormarks = models.PositiveIntegerField(default=0)
-	supervisortime = models.DateTimeField(auto_now=False, auto_now_add = False)
+	supervisortime = models.DateTimeField(auto_now=True, auto_now_add = False)
 	bonusmarks = models.PositiveIntegerField(default=0)
-	bonusmarkstime = models.DateTimeField(auto_now=False, auto_now_add = False)
+	bonusmarkstime = models.DateTimeField(auto_now=True, auto_now_add = False)
 	btpweek = models.ForeignKey(BTPWeek)
 
-	def supervisorMarksEntry(self, marks, time):
+	def supervisorMarksEntry(self, marks):
 		self.supervisormarks = marks
-		self.supervisortime = time
+		
 		return True
-	def panelMarksEntry(self,marks, time):
+	def panelMarksEntry(self,marks, week):
 		pmarks = self.panelmarks
 		pmarks = pmarks + marks
 		self.panelmarks = pmarks
 		self.panelstrength = self.panelstrength + 1
-		self.paneltime = time
+		
 		return True
-	def btpcMarksEntry(self,marks,time):
+	def btpcMarksEntry(self,marks,week):
 		self.btpcmarks = marks
-		self.btpctime = time
+		
 		return True 	
-	def bonusMarksEntry(self, marks, time):
+	def bonusMarksEntry(self, marks):
             	self.bonusmarks = marks
 		self.bonusmarkstime = time
 		return True		
-	def externalMarksEntry(self, marks, time):
+	def externalMarksEntry(self, marks):
 		self.externalmarks = marks
-		self.externaltime = time
+		
 		return True
 
 	def getSuperVisorMarks(self):

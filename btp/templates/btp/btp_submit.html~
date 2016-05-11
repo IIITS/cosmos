@@ -68,10 +68,11 @@
   </div>
 </head>
 <div class="submit-here">
-
+{{ before_deadline }}
 {% ifequal usertype 'students' %}
 
 <div class="upload-card-wide mdl-card mdl-shadow--2dp">
+    	
     {% if before_deadline %}
     <center><h5>Please  upload your report here</h5></center>
   
